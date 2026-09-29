@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="whaleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="#050814" />
+  <path d="M 20 50 Q 15 30 50 30 Q 80 30 85 45 Q 95 40 98 35 Q 94 48 94 52 Q 98 57 95 65 Q 85 55 80 55 Q 60 70 20 50 Z" fill="url(#whaleGrad)" />
+  <circle cx="35" cy="42" r="3" fill="#ffffff" />
+</svg>

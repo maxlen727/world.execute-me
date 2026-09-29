@@ -1,0 +1,434 @@
+/* =========================================================
+   world.execute(me); × DeepSeek-chan
+   Minimal Kinetic Typography MV
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --text: #e4e4e8;
+  --text-dim: #64748b;
+  --accent: #3b82f6;
+  --accent-light: #93c5fd;
+  --red: #ef4444;
+  --cyan: #22d3ee;
+  --purple: #a78bfa;
+  --green: #34d399;
+  --gold: #fbbf24;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+  --font-display: 'Syne', 'Helvetica Neue', sans-serif;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  color: var(--text);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Canvases ── */
+
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+#motion-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── Lyric Display ── */
+
+.lyric-stage {
+  position: fixed;
+  bottom: 88px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+}
+
+.lyric-prev {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(228, 228, 232, 0.25);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(-4px);
+  max-width: 900px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.lyric-current {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  max-width: 1000px;
+  line-height: 1.3;
+  transition: transform 0.1s ease-out;
+}
+
+.lyric-word {
+  display: inline-block;
+  transition: color 0.12s ease, text-shadow 0.12s ease;
+  padding: 0 3px;
+}
+
+.lyric-word.waiting {
+  color: rgba(228, 228, 232, 0.22);
+}
+
+.lyric-word.active {
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(59, 130, 246, 0.65), 0 0 50px rgba(59, 130, 246, 0.25);
+}
+
+.lyric-word.passed {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.lyric-next {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(228, 228, 232, 0.18);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(4px);
+  max-width: 900px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.lyric-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  opacity: 0.6;
+  max-width: 700px;
+  text-align: center;
+  padding: 4px 14px;
+  border-left: 2px solid rgba(59, 130, 246, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+.lyric-code .kw { color: var(--red); font-weight: 700; }
+.lyric-code .fn { color: var(--accent-light); }
+.lyric-code .str { color: var(--green); }
+.lyric-code .cmt { color: var(--text-dim); font-style: italic; }
+
+/* Lyric entrance animation */
+.lyric-current.entering {
+  animation: lyricEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lyricEnter {
+  from { opacity: 0.15; transform: translateY(14px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Character (DeepSeek Whale-Girl) ── */
+
+.character-stage {
+  position: fixed;
+  left: 20px;
+  bottom: 70px;
+  width: 200px;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.character-sprite-wrap {
+  position: relative;
+  width: 200px;
+  height: 260px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.character-sprite {
+  position: absolute;
+  bottom: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.character-sprite.visible {
+  opacity: 1;
+}
+
+.character-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+/* ── Think Panel ── */
+
+.think-panel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 300px;
+  max-height: 160px;
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.think-panel.collapsed {
+  max-height: 32px;
+}
+
+.think-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  flex-shrink: 0;
+}
+
+.think-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.think-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.think-body {
+  padding: 8px 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.think-text {
+  font-size: 0.7rem;
+  color: rgba(228, 228, 232, 0.6);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.think-cursor {
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── HUD Controls ── */
+
+.hud-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 24px 10px;
+}
+
+.hud-scrubber {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.hud-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.hud-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.hud-btn.primary {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--accent-light);
+}
+
+.hud-time {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  min-width: 140px;
+}
+
+.hud-offset {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hud-offset-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.hud-offset-val {
+  font-size: 0.72rem;
+  color: var(--accent-light);
+  min-width: 48px;
+  text-align: center;
+}
+
+.offset-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.offset-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+/* File upload label */
+.hud-file-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* ── Drop Overlay ── */
+
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.92);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.drop-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drop-box {
+  border: 2px dashed rgba(59, 130, 246, 0.4);
+  border-radius: 12px;
+  padding: 48px 64px;
+  text-align: center;
+}
+
+.drop-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.drop-desc {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
