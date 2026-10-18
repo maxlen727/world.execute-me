@@ -1,67 +1,81 @@
-# world.execute(me); × DeepSeek-chan (深度求索娘) // Interactive Web MV
+# world.execute(me); — a treatise in fourteen plates
 
-> **"world.execute(me);" by Mili** 遇见 **DeepSeek-chan（深度求索娘）**
-> 一个由现代前端技术（Vite + TypeScript + Three.js + Web Audio API + Canvas 2D）驱动的沉浸式交互 3D 音乐视频 (MV)。
+A 3:32 render of **Mili — world.execute(me);**, built with Remotion (1920×1080, 30 fps).
 
----
+> This branch is the `remotion-treatise` edition. `main` keeps the older interactive
+> Vite + Three.js web MV (DeepSeek-chan); that one is untouched.
 
-## 🌟 核心特色与设计亮点
+The film is staged as **plates from an illustrated treatise on love**: each act is a
+different instrument — a technical sheet, an invocation, a geometry plate, an
+oscilloscope, a form, a bestiary, a tribunal, an execution, a love equation — but
+they share one palette, one type system, one grain.
 
-### 1. 严格毫秒级歌词轴与双语代码字幕
-* 精确对齐原曲 **3分32秒** 的 58 行歌词断句与节奏鼓点。
-* 每句歌词配有对应的**可执行代码实现**（如 `me.dimension.giveTo(you);`、`you.sitOn(me.getTangents());`）。
-* **Live Offset 实时对齐校准工具**：HUD 底部提供 `[-100ms]`, `[-20ms]`, `[+20ms]`, `[+100ms]` 毫秒级微调按钮，一键校准任何 MP3 片头静音差异，并自动持久化至 `localStorage`。
+- **Palette:** ink `#0A0A0B`, bone `#EEE9DF`, graphite, ash, and one signal:
+  hazard orange `#FF4D12`. No other hues. Dark-dominant: only two bone paper
+  inserts (the execution record and the tribunal form) break the black.
+- **Type:** Archivo (the lyric voice), IBM Plex Mono (the machine), Cormorant
+  Garamond italic (the sacred register, used once).
+- **Motion:** hard cuts on lyric cues, a 4-frame punch on every cut, a hard cascade
+  on every keyword (scale slam, orange rule, one-frame flash), and word-by-word
+  karaoke pops.
 
-### 2. DeepSeek 娘（深度求索娘）动态赛博形象
-* **发饰**：标志性**小蓝鲸发饰（Little Blue Whale Hairpin）**，带有呼吸灯与重低音共振脉冲。
-* **发型与容姿**：海蓝渐变赛博长发与发丝动力学摆动，深蓝与青色数字瞳孔，带有视线跟随与动态眨眼。
-* **Audio-Reactive 嘴型同步**：通过 Web Audio API 实时提取 Cassie Wei 的人声能量，动态开合嘴型与口型变换。
-* **状态演进**：
-  * `BOOTING`：系统唤醒，面部数据纹路激活
-  * `SINGING`：随歌声起伏动态歌唱
-  * `CAT_MODE`：唱到 *"If I'm a tabby cat"* 时唤出全息荧光猫耳
-  * `OVERCLOCK`：高潮递归阶段面部发光与着色器故障撕裂
-  * `DISSOLVING`：尾声 *"world.execute(me);"* 缓缓化为蓝光粒子星座
+## Preview
 
-### 3. 3D 赛博空间与小蓝鲸（Three.js）
-* **3D 赛博小蓝鲸 (Little Blue Whale)**：具有流体尾鳍摆动与双鳍波浪动态，在副歌与高潮时游弋穿梭于 3D 向量空间，尾部拖拽二进制泡泡尾迹。
-* **分镜视效系统**：
-  * **Chapter 1 (Boot)**：CRT 显像管开机、BIOS 内存检测、实体方块构建。
-  * **Chapter 2 (Geometry)**：三维笛卡尔坐标系、正弦波动态切线滑动 $y - y_0 = \cos(x_0)(x - x_0)$ 与渐近极限。
-  * **Chapter 3 (Oscilloscope)**：双通道示波器，实时波形在交流电 (AC 正弦) 与直流电 (DC 阶跃) 间高速翻转。
-  * **Chapter 4 (Execution)**：小蓝鲸破浪而出，Assembly 汇编流，重低音冲击波。
-  * **Chapter 5 (OOP)**：面向对象类继承图谱，茄子、番茄、低模猫咪与神圣正二十面体。
-  * **Chapter 6 (Trial)**：战斗锁定准星，文字粒子子弹轨迹（`STAR`, `CARBIDE` 等），红字代码违规告警。
-  * **Chapter 7 (Memory & GC)**：十六进制内存矩阵，指针箭头链接，垃圾回收器 Mark-and-Sweep 激光雷达扫描净化负面记忆。
-  * **Chapter 8 (Climax)**：递归调用栈爆炸（Stack Overflow），强力 Bloom 辉光与屏幕震颤。
-  * **Chapter 9 (Outro)**：纯净深空，光标闪烁：`[Process completed with exit code 0]`。
+```bash
+npm install
+npm run dev        # Remotion Studio, composition "WorldExecuteMe"
+```
 
-### 4. `<think>` 思考链控制台 (DeepSeek-R1 CoT)
-* 左上角半透明悬浮控制台，实时以高频 token 吐字流渲染 DeepSeek-chan 的内心思考日志与情感测算。
-* 支持折叠与展开，包含实时 Token 计数统计。
+## Render
 
----
+```bash
+npx remotion render WorldExecuteMe out/world-execute-me.mp4
+```
 
-## 🚀 启动与音频加载
+The rendered film is committed at `out/world-execute-me.mp4` (1080p30, AAC audio).
 
-开发服务器已启动在本地：
-👉 **http://localhost:5173/**
+## Karaoke rules
 
-### 如何加载原曲音频：
-1. **拖拽加载（最方便）**：直接把您的 `world.execute(me);.mp3`（或任意格式音频）拖拽入浏览器窗口即可开始播放！
-2. **点击上传**：点击底部工具栏的 **`📂 LOAD MP3`** 按钮选择本地音频。
-3. **放置到 public**：把 MP3 放置在项目的 `public/` 目录下（命名为 `audio.mp3` 或 `world.execute(me);.mp3`），刷新页面即可全自动加载。
-4. **内置合成器演示**：即使尚未放入音频，应用内置的 140 BPM 8-bit/Chiptune 合成器也会驱动全套视效与嘴型律动，方便即开即玩。
+- The lyric is **word-synced**: the sung word is orange, past words are bone,
+  future words are held at ~30%. Each word lights on its estimated start.
+- The text is **part of the plate**, not a subtitle bar: it sits on the sheet, in the
+  diagram, along the axis, inside the form.
+- The diagram draws across the whole setup phrase and lands with the keyword.
+- Cuts land on lyric cues, not on a fixed clock. Each plate is a page.
 
----
+| Time | Plate | Sheet |
+| --- | --- | --- |
+| 0:00 | I Power on | circuit, PROTECTION, parameters, simulation |
+| 0:16 | II Invocation | typed `world.execute(me);`, EXECUTE, cardiac module, execution record |
+| 0:29 | III Geometry | points → DIMENSION, circle → CIRCUMFERENCE, sine → TANGENTS, infinity → LIMITATIONS |
+| 0:44 | IV Current | AC/DC, dizzy spiral, A.D./B.C. clock, two waves unite |
+| 0:59 | V Stimulation | form 7-L, satisfaction gauge, EXECUTION button, simulation box |
+| 1:14 | VI Objects | botanical/zoological plates: eggplant, tomato, tabby cat, the eye |
+| 1:28 | VII Switch | F/M, AM/PM, S/M toggles, trance |
+| 1:43 | VIII Signal | vibration rings, completion, “you have left”, isolation |
+| 1:58 | IX Fragments | shatter, disheartened, illegal arguments |
+| 2:11 | X Tribunal | Form 7-X, rejected stamp, countdown |
+| 2:27 | XI Execution | 12 hard cuts, EIN / DOS / TROIS / NE / FEM / LIU |
+| 2:42 | XII Trapped | execute buttons, cage, the plea |
+| 2:57 | XIII Lo-o-ove | love algebra, heart curve, caged heart, Cormorant finale |
+| 3:25 | XIV EOF | final EXECUTION, colophon, signal out |
 
-## 🎮 控制与快捷功能
+## Code map
 
-| 功能按键 | 说明 |
-| :--- | :--- |
-| **▶ PLAY / ⏸ PAUSE** | 播放 / 暂停 |
-| **进度滑块** | 随时跳转至任意章节（如跳到 01:11 副歌或 02:57 高潮） |
-| **CALIBRATE AXIS** | `[-100ms]`, `[-20ms]`, `[+20ms]`, `[+100ms]` 实时对准歌词轴 |
-| **🎥 CINEMATIC** | 切换为电影级全自动运镜，或切换为鼠标自由 3D 旋转视角 |
-| **📺 CRT ON/OFF** | 切换 CRT 显像管扫描线与暗角滤镜 |
-| **⛶ FULLSCREEN** | 全屏沉浸体验 |
+- `src/WorldExecuteMe.tsx` — master timeline, camera shake, impact flash
+- `src/core/Plate.tsx` — ink/bone paper, grain, crop marks, hatch pattern, spark
+- `src/core/SceneAudio.tsx` — plate tone, plate number, audio analysis
+- `src/core/impacts.ts` — keyword hits for shake / flash
+- `src/kit/Karaoke.tsx` — word-synced lyric type
+- `src/kit/Beat.tsx` — plate layout: diagram + lyric + figure caption
+- `src/kit/Diagrams.tsx` — engraved geometry, bestiary, forms, scopes
+- `src/scenes/` — 14 plates, one file per act group
+
+## Notes
+
+- The visual grammar (ink/bone/signal, Swiss captions, engraving, karaoke type as part
+  of the image) follows the principles documented in
+  [mexicat/pdoom-video](https://github.com/mexicat/pdoom-video) — no code was copied.
+- Lyric timings come from the official timed lyric (NetEase track 435278010).
+- `public/world-execute-me.mp3` is only used for local preview/rendering by the person
+  who owns the file; it is not redistributed under the repo's license.
